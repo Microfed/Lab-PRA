@@ -83,3 +83,33 @@ TEST(RegistryReader_isNoError, ShouldReturnErrorForInvalidKey){
 
 	EXPECT_FALSE(actual);
 }
+
+TEST(RegistryReader_GetValue, ShouldReturnFalseForInvalidKey){
+	std::auto_ptr<IRegistryReader> reader(new RegistryReader(NULL));
+	std::vector<BYTE> result(0);
+	bool actual = reader->GetValue(NULL, NULL, result);
+
+	EXPECT_FALSE(actual);
+}
+
+TEST(RegistryReader_GetValue, ShouldReturnValueForValidSubkey)
+{
+	std::auto_ptr<IRegistryReader> reader(new RegistryReader(HKEY_CLASSES_ROOT));
+	std::vector<BYTE> result(0);
+	reader->GetValue(NULL, NULL, result);
+
+	EXPECT_GT(result.size(), 1);
+}
+
+TEST(RegistryReader_GetValue, ShouldReturnDefaultValueForValidSubkey_TestForRegistryReader)
+{
+	std::auto_ptr<IRegistryReader> reader(new RegistryReader(HKEY_CLASSES_ROOT));
+	tstring tstr = _T("TestForRegistryReader");
+	LPCTSTR ptsz = tstr.c_str();
+	std::vector<BYTE> result(0);
+	reader->GetValue(ptsz, NULL, result);
+	BYTE expected = 0x64;
+
+	EXPECT_GT(result.size(), 1);
+	EXPECT_EQ(expected, result.data()[0]);
+}

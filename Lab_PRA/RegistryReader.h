@@ -15,9 +15,11 @@ public:
 
 	bool GetKeysEnum(LPCTSTR lpName, std::vector<TCHAR>& result);
 
-	virtual long GetLastError( void );
+	long GetLastError( void );
 
-	virtual bool isNoError( void );
+	bool isNoError( void );
+
+	bool GetValue(LPCTSTR subKeyName, LPCTSTR parameterName, std::vector<BYTE>& result);
 
 	~RegistryReader(void);
 
@@ -28,5 +30,7 @@ private:
 	static const size_t MAX_VALUE_NAME = 16383;
 
 	void openKey( HKEY hkey, LPCTSTR lpName ); 
+
+	void closeKey();
 };
 

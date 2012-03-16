@@ -20,3 +20,8 @@ bool IRegistryReader::isNoError( void )
 {
 	return true;
 }
+
+bool IRegistryReader::GetValue( LPCTSTR subKeyName, LPCTSTR parameterName, std::vector<BYTE>& result )
+{
+	return false;
+}

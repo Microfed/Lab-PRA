@@ -17,6 +17,8 @@ public:
 	virtual long GetLastError(void);
 
 	virtual bool isNoError(void);
+
+	virtual bool GetValue(LPCTSTR subKeyName, LPCTSTR parameterName, std::vector<BYTE>& result);
 	
 	virtual ~IRegistryReader(void);
 };
