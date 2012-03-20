@@ -8,29 +8,32 @@
 #endif
 
 class LAB_PRA_API RegistryReader :
-	public IRegistryReader
-{
+    public IRegistryReader {
 public:
-	RegistryReader(HKEY hKey);
+    RegistryReader(HKEY hKey);
 
-	bool GetKeysEnum(LPCTSTR lpName, std::vector<TCHAR>& result);
+    bool GetKeysEnum(LPCTSTR lpName, std::vector<TCHAR>& result);
 
-	long GetLastError( void );
+    long GetLastError( void );
 
-	bool isNoError( void );
+    bool isNoError( void );
 
-	bool GetValue(LPCTSTR subKeyName, LPCTSTR parameterName, std::vector<BYTE>& result);
+    bool ReadBinary(LPCTSTR subKeyName, LPCTSTR parameterName, std::vector<BYTE>& result);
 
-	~RegistryReader(void);
+    DWORD ReadDWORD(LPCTSTR subKeyName, LPCTSTR parameterName);
+
+    std::basic_string<TCHAR> ReadString(LPCTSTR subKeyName, LPCTSTR parameterName);
+
+    ~RegistryReader(void);
 
 private:
-	HKEY currentKeyHandle;
-	long lastError;
-	static const size_t MAX_KEY_LENGTH = 255;
-	static const size_t MAX_VALUE_NAME = 16383;
+    HKEY currentKeyHandle;
+    long lastError;
+    static const size_t MAX_KEY_LENGTH = 255;
+    static const size_t MAX_VALUE_NAME = 16383;
 
-	void openKey( HKEY hkey, LPCTSTR lpName ); 
+    void openKey( HKEY hkey, LPCTSTR lpName );
 
-	void closeKey();
+    void closeKey();
 };
 
