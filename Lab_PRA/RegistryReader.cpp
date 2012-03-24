@@ -1,8 +1,19 @@
+/**
+ @file	RegistryReader.cpp
+
+ @brief	Implements the registry reader class.
+ */
+ 
 #include "StdAfx.h"
 #include <tchar.h>
 #include <windows.h>
 #include "RegistryReader.h"
 
+/**
+ @typedef	std::basic_string<TCHAR> tstring
+
+ @brief	Defines an alias representing the tstring.
+ */
 typedef std::basic_string<TCHAR> tstring;
 
 LAB_PRA_API RegistryReader::RegistryReader(HKEY hKey) {
@@ -15,11 +26,11 @@ LAB_PRA_API RegistryReader::~RegistryReader(void) {
 }
 
 LAB_PRA_API bool RegistryReader::GetKeysEnum( LPCTSTR lpName, std::vector<TCHAR>& result ) {
-    size_t i = 0;
-    long retCode = ERROR_SUCCESS;
-    DWORD    cbName = 0;
-    TCHAR    achKey[MAX_KEY_LENGTH];
-    FILETIME ftLastWriteTime;
+	size_t i = 0;
+	long retCode = ERROR_SUCCESS;
+	DWORD    cbName = 0;
+	TCHAR    achKey[MAX_KEY_LENGTH];
+	FILETIME ftLastWriteTime;
 
     if(lpName != NULL) {
         openKey(currentKeyHandle, lpName);
@@ -151,9 +162,9 @@ DWORD RegistryReader::ReadDWORD(LPCTSTR subKeyName, LPCTSTR parameterName) {
 }
 
 std::basic_string<TCHAR> RegistryReader::ReadString(LPCTSTR subKeyName, LPCTSTR parameterName) {
-    DWORD dwDataSize = 0;
-    DWORD dwType = REG_SZ;
-    tstring stringValue;
+	DWORD dwDataSize = 0;
+	DWORD dwType = REG_SZ;
+	tstring stringValue;
 
     if(subKeyName != NULL) {
         openKey(currentKeyHandle, subKeyName);
