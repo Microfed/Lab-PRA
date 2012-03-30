@@ -39,7 +39,7 @@ public:
     
      @return	true if it succeeds, false if it fails.
      */
-    virtual bool GetKeysEnum(LPCTSTR lpName, std::vector<TCHAR>& result);
+    virtual bool GetKeysEnum(LPCTSTR lpName, std::vector<TCHAR>& result) = 0;
 
     /**
      @fn	virtual long IRegistryReader::GetLastError(void);
@@ -51,7 +51,7 @@ public:
     
      @return	The last error.
      */
-    virtual long GetLastError(void);
+    virtual long GetLastError(void) = 0;
 
     /**
      @fn	virtual bool IRegistryReader::isNoError(void);
@@ -64,7 +64,7 @@ public:
     
      @return	true if no error, false if not.
      */
-    virtual bool isNoError(void);
+    virtual bool isNoError(void) = 0;
 
 	/**
 	 @fn	virtual bool IRegistryReader::ReadBinary(LPCTSTR subKeyName, LPCTSTR parameterName,
@@ -81,7 +81,7 @@ public:
 	
 	 @return	true if it succeeds, false if it fails.
 	 */
-	virtual bool ReadBinary(LPCTSTR subKeyName, LPCTSTR parameterName, std::vector<BYTE>& result);
+	virtual bool ReadBinary(LPCTSTR subKeyName, LPCTSTR parameterName, std::vector<BYTE>& result) = 0;
 
     /**
      @fn	virtual DWORD IRegistryReader::ReadDWORD(LPCTSTR subKeyName, LPCTSTR parameterName);
@@ -96,7 +96,7 @@ public:
     
      @return	The double word.
      */
-    virtual DWORD ReadDWORD(LPCTSTR subKeyName, LPCTSTR parameterName);
+    virtual DWORD ReadDWORD(LPCTSTR subKeyName, LPCTSTR parameterName) = 0;
 
     /**
      @fn	virtual std::basic_string<TCHAR> IRegistryReader::ReadString(LPCTSTR subKeyName,
@@ -112,16 +112,7 @@ public:
     
      @return	The string.
      */
-    virtual std::basic_string<TCHAR> ReadString(LPCTSTR subKeyName, LPCTSTR parameterName);
+    virtual std::basic_string<TCHAR> ReadString(LPCTSTR subKeyName, LPCTSTR parameterName) = 0;
 
-    /**
-     @fn	virtual IRegistryReader::~IRegistryReader(void);
-    
-     @brief	Destructor.
-    
-     @author	Microfed
-     @date	24.03.2012
-     */
-    virtual ~IRegistryReader(void);
 };
 
