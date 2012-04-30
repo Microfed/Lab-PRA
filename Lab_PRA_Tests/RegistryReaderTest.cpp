@@ -12,7 +12,7 @@ TEST(RegistryReader_GetKeysEnum, ShouldReturnMoreThanOneElementForValidPredefine
     std::auto_ptr<IRegistryReader> reader(new RegistryReader(HKEY_CLASSES_ROOT));
     tstring tstr = _T("");
     LPCTSTR ptsz = tstr.c_str();
-    std::vector<TCHAR> result(0);
+    std::vector<tstring> result(0);
     bool success = reader->GetKeysEnum(ptsz, result);
 
     EXPECT_GT(result.size(), 1);
@@ -23,7 +23,7 @@ TEST(RegistryReader_GetKeysEnum, ShouldReturnMoreThanOneElementForValidSubkey) {
     std::auto_ptr<IRegistryReader> reader(new RegistryReader(HKEY_CLASSES_ROOT));
     tstring tstr = _T("Software");
     LPCTSTR ptsz = tstr.c_str();
-    std::vector<TCHAR> result(0);
+    std::vector<tstring> result(0);
     reader->GetKeysEnum(ptsz, result);
 
     EXPECT_GT(result.size(), 1);
@@ -33,17 +33,35 @@ TEST(RegistryReader_GetKeysEnum, ShouldReturnZeroElementForInvalidSubkey) {
     std::auto_ptr<IRegistryReader> reader(new RegistryReader(HKEY_CLASSES_ROOT));
     tstring tstr = _T("247634_invalid subkey");
     LPCTSTR ptsz = tstr.c_str();
-    std::vector<TCHAR> result(0);
+    std::vector<tstring> result(0);
     reader->GetKeysEnum(ptsz, result);
 
     EXPECT_EQ(0, result.size());
+}
+
+TEST(RegistryReader_GetKeysEnum, ShouldReturnCorrectElementsForValidSubkey_TestForRegistryReader) {
+	std::auto_ptr<IRegistryReader> reader(new RegistryReader(HKEY_CLASSES_ROOT));
+	tstring tstr = _T("TestForRegistryReader");
+	LPCTSTR ptsz = tstr.c_str();
+	std::vector<tstring> result(0);
+	reader->GetKeysEnum(ptsz, result);
+
+	std::vector<tstring> strExpected;
+	strExpected.push_back(_T("key1"));
+	strExpected.push_back(_T("key2"));
+	strExpected.push_back(_T("key3"));
+
+	EXPECT_GT(result.size(), 1);
+	EXPECT_STREQ(strExpected[0].c_str(), result[0].c_str());
+	EXPECT_STREQ(strExpected[1].c_str(), result[1].c_str());
+	EXPECT_STREQ(strExpected[2].c_str(), result[2].c_str());
 }
 
 TEST(RegistryReader_GetKeysEnum, ShouldReturnZeroElementForInvalidKey) {
     std::auto_ptr<IRegistryReader> reader(new RegistryReader(NULL));
     tstring tstr = _T("");
     LPCTSTR ptsz = tstr.c_str();
-    std::vector<TCHAR> result(0);
+    std::vector<tstring> result(0);
     reader->GetKeysEnum(ptsz, result);
 
     EXPECT_EQ(result.size(), 0);
@@ -131,19 +149,6 @@ TEST(RegistryReader_ReadString, ShouldReturnMultiStringValueForValidSubkey_TestF
     LPCTSTR pParName = parName.c_str();
     const TCHAR* result = reader->ReadString(pKeyName, pParName).c_str();
     tstring strExpected = _T("reg_multi_sz");
-
-    EXPECT_STREQ(strExpected.c_str(), result);
-    EXPECT_FALSE(reader->GetLastError());
-}
-
-TEST(RegistryReader_ReadString, ShouldReturnExpandStringValueForValidSubkey_TestForRegistryReader) {
-    std::auto_ptr<IRegistryReader> reader(new RegistryReader(HKEY_CLASSES_ROOT));
-    tstring keyName = _T("TestForRegistryReader");
-    LPCTSTR pKeyName = keyName.c_str();
-    tstring parName = _T("Reg_expand_sz");
-    LPCTSTR pParName = parName.c_str();
-    const TCHAR* result = reader->ReadString(pKeyName, pParName).c_str();
-    tstring strExpected = _T("reg_expand_sz");
 
     EXPECT_STREQ(strExpected.c_str(), result);
     EXPECT_FALSE(reader->GetLastError());

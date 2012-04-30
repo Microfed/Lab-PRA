@@ -53,7 +53,7 @@ public:
     
      @return	true if it succeeds, false if it fails.
      */
-    bool GetKeysEnum(LPCTSTR lpName, std::vector<TCHAR>& result);
+    bool GetKeysEnum(LPCTSTR lpName, std::vector<std::basic_string<TCHAR> >& result );
 
     /**
      @fn	virtual long RegistryReader::GetLastError(void);
