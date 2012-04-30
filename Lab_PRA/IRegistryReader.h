@@ -39,7 +39,7 @@ public:
     
      @return	true if it succeeds, false if it fails.
      */
-    virtual bool GetKeysEnum(LPCTSTR lpName, std::vector<TCHAR>& result) = 0;
+    virtual bool GetKeysEnum(LPCTSTR lpName, std::vector<std::basic_string<TCHAR> >& result ) = 0;
 
     /**
      @fn	virtual long IRegistryReader::GetLastError(void);
